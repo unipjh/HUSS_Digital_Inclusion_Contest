@@ -1,7 +1,5 @@
 /* style.css  */
 
-
-
 /* 1. 기본 리셋 및 전역 스타일 */
 * {
     margin: 0;
@@ -28,7 +26,6 @@ div[data-testid="stAppViewContainer"] > section {
 
 
 /* 3. 콘텐츠를 담는 흰색 박스 (기존 .content-box 와 동일) */
-/* 이제 .page-container는 필요 없어지고 .content-box만 사용해도 됩니다. */
 .content-box {
     background-color: #ffffff;
     padding: 2.5rem 3rem;
@@ -38,7 +35,6 @@ div[data-testid="stAppViewContainer"] > section {
     max-width: 700px;
     text-align: center;
 }
-
 
 /* 4. 콘텐츠 스타일 (제목, 문단, 버튼 등 - 기존과 거의 동일) */
 .content-box h1 {
@@ -83,11 +79,9 @@ div[data-testid="stAppViewContainer"] > section {
     transform: translateY(-2px);
 }
 
-/* (이하 다른 페이지들의 세부 스타일은 필요에 따라 여기에 추가) */
 
-/* -------------------------------------------------- */
+
 /* --- 페이지별 세부 스타일 (기존 스타일 유지 및 개선) --- */
-/* -------------------------------------------------- */
 
 /* Page 2: 신청서 폼 */
 .form-section {
