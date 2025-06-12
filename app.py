@@ -209,29 +209,26 @@ def create_digital_divide_charts():
 
 # Page 1: Start Page
 if st.session_state.current_page == 0:
-    # 이제 content-box div 하나로 모든 것을 감쌉니다.
-    # 상위 section이 중앙 정렬을 모두 처리해줍니다.
     st.markdown('<div class="content-box">', unsafe_allow_html=True)
-    
     st.markdown('<h1>당신은 누구십니까?</h1>', unsafe_allow_html=True)
     st.markdown('<p>당신은 해당 역할로 지원금 신청서를 작성합니다.</p>', unsafe_allow_html=True)
     
     st.markdown('<div class="button-group">', unsafe_allow_html=True)
     col1, col2 = st.columns(2)
     with col1:
-        if st.button('75세 김OO씨', key='elderly_role_button'):
+        if st.button('75세 김여사', key='elderly_role_button'):
             st.session_state.selected_role = 'elderly'
             st.session_state.start_time = time.time()
             st.session_state.ai_report_content = None
             set_page(1)
     with col2:
-        if st.button('외국인 회사원 ㅁㅁㅁ씨', key='foreigner_role_button'):
+        if st.button('외국인 데이비드', key='foreigner_role_button'):
             st.session_state.selected_role = 'foreigner'
             st.session_state.start_time = time.time()
             st.session_state.ai_report_content = None
             set_page(1)
+            
     st.markdown('</div>', unsafe_allow_html=True) # button-group 닫기
-    
     st.markdown('</div>', unsafe_allow_html=True) # content-box 닫기
 
 
@@ -361,10 +358,6 @@ elif st.session_state.current_page == 1:
 
         st.markdown('</div>', unsafe_allow_html=True)
 
-# app.py
-
-# ... (기존 코드 유지) ...
-
     form_is_valid = check_form_validity()
 
     if not form_is_valid:
@@ -379,11 +372,10 @@ elif st.session_state.current_page == 1:
 
     if st.button('신청', key='submit_form_button', disabled=not form_is_valid):
         st.session_state.end_time = time.time()
-        # AI 리포트 생성 로직을 Page 3으로 이동시키기 위해,
-        # 필요한 시간만 세션 상태에 저장하고 바로 페이지 전환
+        # AI 리포트 생성 로직을 Page 3으로 이동시키기 위해, 필요한 시간만 세션 상태에 저장하고 바로 페이지 전환
         st.session_state.elapsed_time_for_report = st.session_state.end_time - st.session_state.start_time
         st.session_state.ai_report_content = None # 리포트 내용을 초기화하여 로딩 스피너가 보이게 함
-        set_page(2) # 바로 3페이지로 이동
+        set_page(2)
 
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('</div>', unsafe_allow_html=True)
@@ -405,18 +397,10 @@ elif st.session_state.current_page == 2:
 
     st.markdown('<h2>AI 분석 리포트</h2>', unsafe_allow_html=True)
 
-    # --- AI 리포트 생성 로직을 Page 3으로 이동 ---
     with st.container():
         # ai_report_content가 아직 없으면 생성 시작
         if st.session_state.ai_report_content is None:
-            # st.spinner는 with 블록 안에서만 작동하므로, 여기에 넣어줍니다.
-            # get_ai_report 함수 내부의 st.spinner는 제거하거나,
-            # 여기서는 호출 전에 스피너를 보여줄 것이므로, get_ai_report 내 스피너는 불필요할 수 있습니다.
-            # get_ai_report 함수는 그대로 두고 st.spinner를 감싸는 방식도 가능합니다.
-            # 여기서는 get_ai_report 함수 내부에 이미 st.spinner가 있다고 가정합니다.
-            
-            # get_ai_report 함수 내부에 st.spinner가 있다면, 아래 주석을 풀고 사용
-            st.session_state.ai_report_content = get_ai_report(
+             st.session_state.ai_report_content = get_ai_report(
                 st.session_state.selected_role,
                 {'name': st.session_state.name, 'address': st.session_state.address},
                 st.session_state.elapsed_time_for_report # Page 2에서 저장한 시간 사용
@@ -430,14 +414,11 @@ elif st.session_state.current_page == 2:
             {report_content}
         </div>
         """, unsafe_allow_html=True)
-    # --- End of AI 리포트 생성 로직 ---
-
+        
     if st.button('마지막 결과 보기', key='final_result_button'):
         set_page(3)
 
     st.markdown('</div>', unsafe_allow_html=True)
-
-# ... (기존 코드 유지) ...
 
 
 # Page 4: Digital Divide Status
@@ -464,10 +445,10 @@ elif st.session_state.current_page == 3:
 
     # Keep chart container
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-
+    
     fig1, fig2 = create_digital_divide_charts() # Keep existing function call
-
     col_chart1, col_chart2 = st.columns(2)
+    
     with col_chart1:
         st.plotly_chart(fig1, use_container_width=True)
     with col_chart2:
@@ -475,7 +456,6 @@ elif st.session_state.current_page == 3:
 
     st.markdown('</div>', unsafe_allow_html=True)
     st.markdown('<h3>\"디지털 포용. 그것은 관심과 배려에서 시작됩니다.\"</h3>', unsafe_allow_html=True)
-
 
     st.markdown('<div style="margin-top: 30px;">', unsafe_allow_html=True)
     if st.button("처음으로 돌아가기", key="restart_button_page4"):
@@ -494,5 +474,4 @@ elif st.session_state.current_page == 3:
         if 'set_page' in globals():
             set_page(0)
     st.markdown('</div>', unsafe_allow_html=True)
-
     st.markdown('</div>', unsafe_allow_html=True)
